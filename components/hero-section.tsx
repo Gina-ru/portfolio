@@ -1,91 +1,140 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { ScrambleTextOnHover } from "@/components/scramble-text"
-import { SplitFlapText, SplitFlapMuteToggle, SplitFlapAudioProvider } from "@/components/split-flap-text"
-import { AnimatedNoise } from "@/components/animated-noise"
-import { BitmapChevron } from "@/components/bitmap-chevron"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-
-gsap.registerPlugin(ScrollTrigger)
-
 export function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!sectionRef.current || !contentRef.current) return
-
-    const ctx = gsap.context(() => {
-      gsap.to(contentRef.current, {
-        y: -100,
-        opacity: 0,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
-    <section ref={sectionRef} id="hero" className="relative min-h-screen flex items-center pl-6 md:pl-28 pr-6 md:pr-12">
-      <AnimatedNoise opacity={0.03} />
-
-      {/* Left vertical labels */}
-      <div className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground -rotate-90 origin-left block whitespace-nowrap">
-          SIGNAL
+    <section
+      id="hero"
+      className="relative min-h-screen flex flex-col"
+      style={{ background: "#0d0d0d", fontFamily: "var(--font-jetbrains), monospace" }}
+    >
+      {/* Titlebar */}
+      <div
+        style={{
+          background: "#161616",
+          borderBottom: "1px solid #1e1e1e",
+          padding: "14px 40px",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          flexShrink: 0,
+        }}
+      >
+        <span style={{ width: 13, height: 13, borderRadius: "50%", background: "#ff5f57", display: "inline-block" }} />
+        <span style={{ width: 13, height: 13, borderRadius: "50%", background: "#febc2e", display: "inline-block" }} />
+        <span style={{ width: 13, height: 13, borderRadius: "50%", background: "#28c840", display: "inline-block" }} />
+        <span style={{ marginLeft: 16, fontSize: 14, color: "#333", letterSpacing: "0.1em" }}>
+          ~/portfolio — <span style={{ color: "#c95555" }}>yeojin@design</span> — zsh
         </span>
       </div>
 
-      {/* Main content */}
-      <div ref={contentRef} className="flex-1 w-full">
-        <SplitFlapAudioProvider>
-          <div className="relative">
-            <SplitFlapText text="INTERFACE" speed={80} />
-            <div className="mt-4">
-              <SplitFlapMuteToggle />
+      {/* Body */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "clamp(32px, 6vw, 64px) clamp(24px, 8vw, 112px) clamp(28px, 5vw, 56px)",
+          minHeight: 0,
+        }}
+      >
+        {/* Top row */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+          <span style={{ fontSize: 15, color: "#444", letterSpacing: "0.08em" }}>
+            <span style={{ color: "#c95555" }}>$</span> cat cover.md
+          </span>
+          <span style={{ fontSize: 15, color: "#c95555", letterSpacing: "0.2em" }}>// Design × AI</span>
+        </div>
+
+        {/* Hero */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "24px 0 16px" }}>
+          <div style={{ fontSize: 16, fontWeight: 300, color: "#c95555", letterSpacing: "0.22em", marginBottom: 18 }}>
+            &gt;&nbsp; UX/UI &nbsp;·&nbsp; 交互设计 &nbsp;·&nbsp; 产品设计
+          </div>
+          <div
+            style={{
+              fontSize: "clamp(72px, 12vw, 160px)",
+              fontWeight: 800,
+              color: "#f0f0f0",
+              letterSpacing: "-0.03em",
+              lineHeight: 0.92,
+              marginBottom: 32,
+            }}
+          >
+            Portfolio
+            <span
+              style={{
+                display: "inline-block",
+                width: "clamp(5px, 0.6vw, 10px)",
+                height: "clamp(52px, 8vw, 112px)",
+                background: "#c95555",
+                verticalAlign: "bottom",
+                marginLeft: 6,
+                animation: "blink 1.1s step-end infinite",
+              }}
+            />
+          </div>
+          <div style={{ fontSize: "clamp(16px, 2vw, 26px)", fontWeight: 300, color: "#666", letterSpacing: "0.04em" }}>
+            <span style={{ color: "#c95555", fontWeight: 700 }}>{"{"}</span>
+            &nbsp;AI-Augmented &nbsp;
+            <span style={{ color: "#c95555" }}>×</span>
+            &nbsp; Vibe Coding&nbsp;
+            <span style={{ color: "#c95555", fontWeight: 700 }}>{"}"}</span>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div
+          style={{
+            borderTop: "1px solid #1e1e1e",
+            paddingTop: 36,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            alignItems: "end",
+          }}
+        >
+          {/* JSON block */}
+          <div style={{ fontSize: "clamp(13px, 1.2vw, 17px)", lineHeight: 2.1, letterSpacing: "0.02em" }}>
+            <span style={{ color: "#333" }}>{"{"}</span>
+            <br />
+            &nbsp;&nbsp;<span style={{ color: "#c95555" }}>&quot;name&quot;</span>
+            <span style={{ color: "#333" }}> : </span>
+            <span style={{ color: "#999" }}>&quot;金如珍&quot;</span>
+            <span style={{ color: "#333" }}>,</span>
+            <br />
+            &nbsp;&nbsp;<span style={{ color: "#c95555" }}>&quot;email&quot;</span>
+            <span style={{ color: "#333" }}> : </span>
+            <span style={{ color: "#999" }}>&quot;jinrz4849@naver.com&quot;</span>
+            <span style={{ color: "#333" }}>,</span>
+            <br />
+            &nbsp;&nbsp;<span style={{ color: "#c95555" }}>&quot;wechat&quot;</span>
+            <span style={{ color: "#333" }}> : </span>
+            <span style={{ color: "#999" }}>&quot;kyj4849&quot;</span>
+            <br />
+            <span style={{ color: "#333" }}>{"}"}</span>
+          </div>
+
+          {/* Right: year + command */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 14 }}>
+            <div
+              style={{
+                fontSize: "clamp(40px, 5vw, 72px)",
+                fontWeight: 800,
+                color: "#c95555",
+                letterSpacing: "-0.02em",
+                lineHeight: 1,
+              }}
+            >
+              2026届
+            </div>
+            <div style={{ fontSize: 14, color: "#2a2a2a", letterSpacing: "0.08em" }}>
+              <span style={{ color: "#c95555" }}>yeojin@design</span>:~$ open portfolio/
+              <span style={{ animation: "blink 1.1s step-end infinite" }}>█</span>
             </div>
           </div>
-        </SplitFlapAudioProvider>
-
-        <h2 className="font-[var(--font-bebas)] text-muted-foreground/60 text-[clamp(1rem,3vw,2rem)] mt-4 tracking-wide">
-          Studies in Controlled Environments
-        </h2>
-
-        <p className="mt-12 max-w-md font-mono text-sm text-muted-foreground leading-relaxed">
-          We design systems that behave, not just screens that display. Signals from the edge of what&apos;s shippable.
-        </p>
-
-        <div className="mt-16 flex items-center gap-8">
-          <a
-            href="#work"
-            className="group inline-flex items-center gap-3 border border-foreground/20 px-6 py-3 font-mono text-xs uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200"
-          >
-            <ScrambleTextOnHover text="View Experiments" as="span" duration={0.6} />
-            <BitmapChevron className="transition-transform duration-[400ms] ease-in-out group-hover:rotate-45" />
-          </a>
-          <a
-            href="#signals"
-            className="font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            Latest Signals
-          </a>
         </div>
       </div>
 
-      {/* Floating info tag */}
-      <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12">
-        <div className="border border-border px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          v.01 / Experimental Build
-        </div>
-      </div>
     </section>
   )
 }

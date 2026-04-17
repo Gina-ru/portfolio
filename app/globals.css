@@ -17,7 +17,7 @@
   --secondary-foreground: oklch(0.85 0 0);
   --muted: oklch(0.25 0 0);
   --muted-foreground: oklch(0.55 0 0);
-  --accent: oklch(0.7 0.2 45);
+  --accent: oklch(0.60 0.14 25);
   --accent-foreground: oklch(0.08 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
@@ -136,3 +136,5 @@
   background: oklch(0.7 0.2 45);
   color: oklch(0.08 0 0);
 }
+
+@keyframes blink { 50% { opacity: 0; } }

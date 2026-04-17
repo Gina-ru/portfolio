@@ -1,9 +1,15 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { IBM_Plex_Sans, IBM_Plex_Mono, Bebas_Neue } from "next/font/google"
+import { IBM_Plex_Sans, IBM_Plex_Mono, Bebas_Neue, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { SmoothScroll } from "@/components/smooth-scroll"
 import "./globals.css"
+
+const jetbrainsMono = JetBrains_Mono({
+  weight: ["300", "400", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+})
 
 const ibmPlexSans = IBM_Plex_Sans({
   weight: ["400", "500", "600", "700"],
@@ -49,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark bg-background">
       <body
-        className={`${ibmPlexSans.variable} ${bebasNeue.variable} ${ibmPlexMono.variable} font-sans antialiased overflow-x-hidden`}
+        className={`${ibmPlexSans.variable} ${bebasNeue.variable} ${ibmPlexMono.variable} ${jetbrainsMono.variable} font-sans antialiased overflow-x-hidden`}
       >
         <div className="noise-overlay" aria-hidden="true" />
         <SmoothScroll>{children}</SmoothScroll>
