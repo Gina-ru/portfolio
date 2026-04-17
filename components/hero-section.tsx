@@ -1,5 +1,7 @@
 "use client"
 
+import { SplitFlapText } from "@/components/split-flap-text"
+
 export function HeroSection() {
   return (
     <section
@@ -51,25 +53,16 @@ export function HeroSection() {
           <div style={{ fontSize: 16, fontWeight: 300, color: "#c95555", letterSpacing: "0.22em", marginBottom: 18 }}>
             &gt;&nbsp; UX/UI &nbsp;·&nbsp; 交互设计 &nbsp;·&nbsp; 产品设计
           </div>
-          <div
-            style={{
-              fontSize: "clamp(72px, 12vw, 160px)",
-              fontWeight: 800,
-              color: "#f0f0f0",
-              letterSpacing: "-0.03em",
-              lineHeight: 0.92,
-              marginBottom: 32,
-            }}
-          >
-            Portfolio
+          <div style={{ marginBottom: 32, display: "flex", alignItems: "flex-end", flexWrap: "nowrap" }}>
+            <SplitFlapText text="PORTFOLIO" speed={80} />
             <span
               style={{
                 display: "inline-block",
                 width: "clamp(5px, 0.6vw, 10px)",
-                height: "clamp(52px, 8vw, 112px)",
+                height: "clamp(4.2rem, 15.75vw, 14.7rem)",
                 background: "#c95555",
-                verticalAlign: "bottom",
                 marginLeft: 6,
+                flexShrink: 0,
                 animation: "blink 1.1s step-end infinite",
               }}
             />
