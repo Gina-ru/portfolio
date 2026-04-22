@@ -133,8 +133,8 @@
 
 /* Custom selection color */
 ::selection {
-  background: oklch(0.7 0.2 45);
-  color: oklch(0.08 0 0);
+  background: rgba(201, 85, 85, 0.4);
+  color: #ffffff;
 }
 
 @keyframes blink { 50% { opacity: 0; } }

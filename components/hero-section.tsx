@@ -14,7 +14,7 @@ export function HeroSection() {
         style={{
           background: "#161616",
           borderBottom: "1px solid #1e1e1e",
-          padding: "14px 40px",
+          padding: "14px 40px 14px 56px",
           display: "flex",
           alignItems: "center",
           gap: 8,
@@ -92,7 +92,7 @@ export function HeroSection() {
             <br />
             &nbsp;&nbsp;<span style={{ color: "#c95555" }}>&quot;name&quot;</span>
             <span style={{ color: "#333" }}> : </span>
-            <span style={{ color: "#999" }}>&quot;金如珍&quot;</span>
+            <span style={{ color: "#999" }}>&quot;金如珍 · Yeojin Kim&quot;</span>
             <span style={{ color: "#333" }}>,</span>
             <br />
             &nbsp;&nbsp;<span style={{ color: "#c95555" }}>&quot;email&quot;</span>
