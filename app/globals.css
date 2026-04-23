@@ -137,4 +137,15 @@
   color: #ffffff;
 }
 
+.content {
+  max-width: 900px;
+}
+
+.body-copy {
+  max-width: 900px;
+  word-break: keep-all;
+  line-break: strict;
+  white-space: normal;
+}
+
 @keyframes blink { 50% { opacity: 0; } }

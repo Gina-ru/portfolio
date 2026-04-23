@@ -17,12 +17,18 @@ type Signal = {
   award: string
   role: string
   problem: string[]
+  solutionTitle?: string
+  solutionFlow?: string
+  solutionBody?: string[]
+  solutionHighlights?: Array<{ title: string; body: string }>
   approach: Array<{ main: string; sub?: string }>
   outcome: string
   reflection?: string
   outcomeCount?: number
   impact?: Array<{ value: string; label: string }>
-  moreDetails?: Array<{ title: string; body: string }>
+  reflectionDetails?: Array<{ title: string; body: string }>
+  awardsTitle?: string
+  awardsImages?: Array<{ alt: string; src: string }>
   problemStyle?: 'paragraph'
   problemImages?: Array<{ alt: string; src?: string }>
   problemBeforeAfter?: {
@@ -36,14 +42,7 @@ type Signal = {
   newSkillImages?: Array<{ src: string; alt: string }>
   approachImages?: Array<{ alt: string; src?: string }>
   outcomeImages?: Array<{ alt: string; src?: string }>
-  outcomeFeature?: {
-    primary: { alt: string; src: string }
-    secondary: Array<{ alt: string; src: string }>
-  }
-  outcomeFeatureRows?: Array<{
-    primary: { alt: string; src: string }
-    secondary: Array<{ alt: string; src: string }>
-  }>
+  outcomeMobileImages?: Array<{ alt: string; src: string }>
 }
 
 const signals: Signal[] = [
@@ -66,10 +65,31 @@ const signals: Signal[] = [
     award: "",
     role: "Product & UIUX Designer",
     problem: [
-      "Sheet0는 AI Agent가 데이터 분석·처리 작업을 자동화하는 SaaS 제품이다.",
-      "기존 Agent는 작업을 실행하지만 중간 과정이 블랙박스처럼 보이지 않았다.",
-      "전문가 유저일수록 '지금 뭘 하고 있는지', '어디서 오류가 났는지'를 실시간으로 파악해야 신뢰하고 사용할 수 있다.",
-      "→ Agent의 행동 과정을 사용자가 읽고 개입할 수 있는 UI가 필요했다.",
+      "Sheet0는 AI Agent가 데이터 분석 및 처리 작업을 자동화하는 SaaS 제품이다.",
+      "기존 Agent는 작업을 실행하지만 중간 과정이 블랙박스처럼 보이지 않아 신뢰와 이해가 어려웠다.",
+      "또한 유저는 데이터를 가지고 있음에도 무엇을 해야 할지 판단하기 어려워 초기 이탈이 발생했다.",
+      "→ 유저의 의도를 이해하고 적절한 시작점을 제시하는 온보딩 UX가 필요했다.",
+    ],
+    solutionTitle: "From UI-driven to Intent-driven Onboarding",
+    solutionFlow: "Flow Greeting → Context Input → Interest → Pain Point → Decision → Use Case → Action",
+    solutionBody: [
+      "기존 구조에서는 유저가 어떤 기능을 사용할지 스스로 판단해야 했다. 이로 인해 초기 진입 장벽이 높고, 첫 행동까지 도달하는 데 시간이 오래 걸렸다.",
+      "이를 해결하기 위해 UI 중심 탐색이 아닌 대화 기반으로 유저의 의도를 먼저 이해하는 온보딩 구조를 설계했다.",
+      "AI가 유저의 컨텍스트를 점진적으로 수집하고 의사결정 단계까지 자연스럽게 유도한 뒤 적절한 use case로 연결하는 흐름을 구축했다.",
+    ],
+    solutionHighlights: [
+      {
+        title: "Context Building",
+        body: "유저의 이름과 관심사를 자연스럽게 수집하여 개인화된 흐름을 구성했다.",
+      },
+      {
+        title: "Soft Assumption",
+        body: "“You’re probably dealing with…”와 같은 표현을 통해 강요하지 않는 방식으로 문제 상황을 제시하고 공감을 유도했다.",
+      },
+      {
+        title: "Progressive Narrowing",
+        body: "관심사 → 산업 → 역할 → 문제 → 의사결정 단계로 점진적으로 범위를 좁히며 유저의 의도를 구체화했다.",
+      },
     ],
     approach: [
       { main: "Cursor의 Chat 인터페이스에서 힌트를 얻었다. Cursor는 AI가 작업하는 동안 System Message로 중간 과정·오류·판단 근거를 실시간으로 보여준다. 개발자들이 이 방식에 이미 익숙하고 신뢰한다는 점에 주목했다." },
@@ -114,30 +134,24 @@ const signals: Signal[] = [
       { main: "Preview Thumbnail", sub: "생성 과정 중 결과를 예측할 수 있는 미리보기 썸네일을 추가하여 사용자 불확실성을 줄이고 결과에 대한 기대감을 형성했다." },
       { main: "One-click Iteration UX", sub: "실패 시 단순 재시도 대신 원클릭 수정 인터페이스를 제공해 반복 사용을 자연스럽게 유도하고 UX 흐름이 끊기지 않도록 개선했다." },
     ],
-    outcome: "Tripo는 AI 기반 텍스트 프롬프트로 3D 모델을 생성하는 플랫폼이다. 본 프로젝트의 목표는 사용자의 '프롬프트 입력 → 생성 결과 확인' 과정에서 발생하는 이탈률을 줄이고, 전반적인 UX 신뢰도를 향상시키는 것이었다.",
+    outcome: "Tripo는 AI 기반 텍스트 프롬프트로 3D 모델을 생성하는 플랫폼이다.\n\n본 프로젝트의 목표는 사용자의 '프롬프트 입력 → 생성 결과 확인' 과정에서 발생하는 이탈률을 줄이고, 전반적인 UX 신뢰도를 향상시키는 것이었다.",
     outcomeCount: 0,
-    outcomeFeatureRows: [
-      {
-        primary: { alt: "Tripo Game Hub", src: "/images/tripo-game-hub.png" },
-        secondary: [
-          { alt: "Tripo Desktop v1 1", src: "/images/tripo-desktop-v1-1.png" },
-          { alt: "Tripo Desktop v1 2", src: "/images/tripo-desktop-v1-2.png" },
-        ],
-      },
-      {
-        primary: { alt: "Tripo Affiliate Program", src: "/images/tripo-affiliate-program.png" },
-        secondary: [
-          { alt: "Tripo Text to 3D 1", src: "/images/tripo-text-to-3d-1.png" },
-          { alt: "Tripo Text to 3D 2", src: "/images/tripo-text-to-3d-2.png" },
-        ],
-      },
+    outcomeImages: [
+      { alt: "Tripo Game Hub", src: "/images/tripo-game-hub.png" },
+      { alt: "Tripo Affiliate Program", src: "/images/tripo-affiliate-program.png" },
+    ],
+    outcomeMobileImages: [
+      { alt: "Tripo Desktop v1 1", src: "/images/tripo-desktop-v1-1.png" },
+      { alt: "Tripo Desktop v1 2", src: "/images/tripo-desktop-v1-2.png" },
+      { alt: "Tripo Text to 3D 1", src: "/images/tripo-text-to-3d-1.png" },
+      { alt: "Tripo Text to 3D 2", src: "/images/tripo-text-to-3d-2.png" },
     ],
     impact: [
       { value: "↓ 15%", label: "Drop-off Rate" },
       { value: "↑ 20%", label: "Session Time" },
       { value: "1.3x", label: "Reuse Rate" },
     ],
-    moreDetails: [
+    reflectionDetails: [
       {
         title: "Collaboration",
         body: "PM과 사용자 여정 및 KPI를 정의하고, 프론트엔드 개발자와 컴포넌트 단위 협업을 통해 구현 단계에서도 시각적 일관성을 유지했다.",
@@ -150,6 +164,15 @@ const signals: Signal[] = [
         title: "Global UX",
         body: "다국어 환경을 고려한 반응형 텍스트 구조와 문화적 차이를 최소화하는 중립적인 디자인 스타일을 적용했다.",
       },
+      {
+        title: "Product Scope",
+        body: "랜딩 페이지, 게임 허브 등 주요 유저 접점 영역을 포함해 工作台 외 핵심 페이지 전반의 웹 및 모바일 UI/UX를 설계하며 제품 경험의 일관된 흐름을 구축했다.",
+      },
+    ],
+    awardsTitle: "IDA DESIGN AWARDS",
+    awardsImages: [
+      { alt: "IDA Design Awards Silver", src: "/images/tripo-ida-design-awards-silver.jpg" },
+      { alt: "IDA Design Awards Bronze", src: "/images/tripo-ida-design-awards-bronze.jpg" },
     ],
     problemBeforeAfter: {
       before: { src: "/images/tripo-before-home.png", alt: "Tripo before homepage" },
@@ -474,15 +497,15 @@ function SignalDetail({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-8">
           <div>
             <FieldLabel>Project</FieldLabel>
-            <p className="font-mono text-[15px] text-foreground leading-relaxed">{signal.note}</p>
+            <p className="body-copy font-mono text-[15px] text-foreground leading-relaxed">{signal.note}</p>
           </div>
           <div>
             <FieldLabel>Role</FieldLabel>
-            <p className="font-mono text-[15px] text-foreground leading-relaxed">{signal.role}</p>
+            <p className="body-copy font-mono text-[15px] text-foreground leading-relaxed">{signal.role}</p>
           </div>
           <div>
             <FieldLabel>Duration</FieldLabel>
-            <p className="font-mono text-[15px] text-foreground leading-relaxed">{signal.date}</p>
+            <p className="body-copy font-mono text-[15px] text-foreground leading-relaxed">{signal.date}</p>
           </div>
         </div>
       </section>
@@ -492,11 +515,11 @@ function SignalDetail({
         <section className="mb-12">
           <SectionLabel number="02" label="Problem" />
           {signal.problemStyle === 'paragraph' ? (
-            <p className="font-mono text-[15px] text-foreground leading-relaxed max-w-2xl mt-8">
+            <p className="body-copy font-mono text-[15px] text-foreground leading-relaxed mt-8">
               {signal.problem.join(' ')}
             </p>
           ) : (
-            <ul className="mt-8 space-y-2 max-w-2xl">
+            <ul className="body-copy mt-8 space-y-2">
               {signal.problem.map((item, i) => (
                 <li key={i} className="font-mono text-[15px] text-foreground leading-relaxed flex gap-3">
                   <span className="text-accent/60 flex-shrink-0">·</span>
@@ -565,11 +588,58 @@ function SignalDetail({
         </section>
       )}
 
+      {signal.solutionBody && (
+        <section className="mb-12">
+          <SectionLabel
+            number="03"
+            label={signal.title === "Sheet0" ? "Solution — Conversational Onboarding" : "Solution"}
+          />
+          {signal.solutionTitle && (
+            <h3 className="mt-8 text-3xl tracking-tight text-foreground md:text-4xl">
+              {signal.solutionTitle}
+            </h3>
+          )}
+          {signal.solutionFlow && (
+            <p className="body-copy mt-4 font-mono text-[14px] leading-relaxed text-accent/80">
+              {signal.solutionFlow}
+            </p>
+          )}
+          <div className="body-copy mt-6 space-y-5">
+            {signal.solutionBody.map((paragraph) => (
+              <p
+                key={paragraph}
+                className="text-[15px] leading-relaxed text-foreground"
+                style={{ fontFamily: "Inter, sans-serif" }}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          {signal.solutionHighlights && (
+            <div className="body-copy mt-8 space-y-6">
+              {signal.solutionHighlights.map((item) => (
+                <div key={item.title}>
+                  <h4 className="font-mono text-[13px] uppercase tracking-[0.24em] text-accent/70">
+                    [{item.title}]
+                  </h4>
+                  <p
+                    className="mt-2 text-[15px] leading-relaxed text-foreground"
+                    style={{ fontFamily: "Inter, sans-serif" }}
+                  >
+                    {item.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
       {/* ③ APPROACH */}
       {signal.approach.length > 0 && (
         <section className="mb-12">
-          <SectionLabel number="03" label="Approach" />
-          <ul className="mt-8 space-y-4 max-w-2xl">
+          <SectionLabel number={signal.solutionBody ? "04" : "03"} label="Approach" />
+          <ul className="body-copy mt-8 space-y-4">
             {signal.approach.map((item, i) => (
               <li key={i}>
                 <div className="text-foreground flex gap-3" style={{ fontFamily: "Inter, sans-serif", fontSize: "16px", lineHeight: 1.8 }}>
@@ -598,9 +668,9 @@ function SignalDetail({
 
       {/* ④ OUTCOME */}
       <section className="mb-12">
-        <SectionLabel number="04" label="Outcome" />
+        <SectionLabel number={signal.solutionBody ? "05" : "04"} label="Outcome" />
         {signal.outcome && (
-          <p className="font-mono text-[15px] text-foreground leading-relaxed max-w-2xl mt-6">{signal.outcome}</p>
+          <p className="body-copy whitespace-pre-line font-mono text-[15px] text-foreground leading-relaxed mt-6">{signal.outcome}</p>
         )}
         {signal.impact && (
           <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -616,7 +686,13 @@ function SignalDetail({
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
             {signal.outcomeImages
               ? signal.outcomeImages.map((img, i) => (
-                  <ImagePlaceholder key={i} alt={img.alt} src={img.src} />
+                  <ImagePlaceholder
+                    key={i}
+                    alt={img.alt}
+                    src={img.src}
+                    ratioClass=""
+                    imageClassName="object-contain"
+                  />
                 ))
               : Array.from({ length: signal.outcomeCount ?? 2 }).map((_, i) => (
                   <ImagePlaceholder key={i} alt={`Image / Video ${i + 1}`} />
@@ -624,56 +700,58 @@ function SignalDetail({
             }
           </div>
         )}
-        {signal.outcomeFeature && (
-          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
-            <ImagePlaceholder alt={signal.outcomeFeature.primary.alt} src={signal.outcomeFeature.primary.src} />
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2">
-              {signal.outcomeFeature.secondary.map((img) => (
-                <ImagePlaceholder key={img.src} alt={img.alt} src={img.src} />
-              ))}
-            </div>
+        {signal.outcomeMobileImages && (
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {signal.outcomeMobileImages.map((img) => (
+              <div key={img.src} className="mx-auto w-full max-w-[520px]">
+                <ImagePlaceholder alt={img.alt} src={img.src} ratioClass="aspect-[9/19]" />
+              </div>
+            ))}
           </div>
         )}
-        {signal.outcomeFeatureRows?.map((row) => (
-          <div key={row.primary.src} className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
-            <ImagePlaceholder alt={row.primary.alt} src={row.primary.src} />
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2">
-              {row.secondary.map((img) => (
-                <ImagePlaceholder key={img.src} alt={img.alt} src={img.src} />
-              ))}
-            </div>
-          </div>
-        ))}
       </section>
 
       {/* ⑤ REFLECTION */}
       <section className="mb-4 border-t border-border/20 pt-12">
-        <SectionLabel number="05" label="Reflection" />
-        <p className="font-mono text-[15px] leading-relaxed max-w-2xl mt-8 italic" style={{ color: signal.reflection ? undefined : undefined }} >
-          {signal.reflection
-            ? <span className="text-foreground">{signal.reflection}</span>
-            : <span className="text-foreground/30">— Coming soon.</span>
-          }
-        </p>
+        <SectionLabel number={signal.solutionBody ? "06" : "05"} label="Reflection" />
+        {signal.reflection && (
+          <p className="body-copy font-mono text-[15px] leading-relaxed mt-8 italic">
+            <span className="text-foreground">{signal.reflection}</span>
+          </p>
+        )}
+        {signal.reflectionDetails && (
+          <div className="body-copy mt-8 space-y-6">
+            {signal.reflectionDetails.map((detail) => (
+              <div key={detail.title}>
+                <h3 className="font-mono text-[13px] uppercase tracking-[0.24em] text-accent/70">{detail.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-foreground/75" style={{ fontFamily: "Inter, sans-serif" }}>
+                  {detail.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
-      {signal.moreDetails && (
-        <section className="mb-4 pt-8">
-          <details className="border border-white/10 bg-white/5 p-6">
-            <summary className="cursor-pointer font-mono text-[14px] uppercase tracking-[0.3em] text-foreground">
-              More Details
-            </summary>
-            <div className="mt-6 space-y-5">
-              {signal.moreDetails.map((detail) => (
-                <div key={detail.title}>
-                  <h3 className="font-mono text-[13px] uppercase tracking-[0.24em] text-accent/70">{detail.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-foreground/75" style={{ fontFamily: "Inter, sans-serif" }}>
-                    {detail.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </details>
+      {signal.awardsImages && (
+        <section className="mb-4 border-t border-border/20 pt-12">
+          <SectionLabel number="06" label="Awards" />
+          {signal.awardsTitle && (
+            <h3 className="mt-8 font-[var(--font-bebas)] text-[24px] tracking-tight text-foreground">
+              {signal.awardsTitle}
+            </h3>
+          )}
+          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {signal.awardsImages.map((image) => (
+              <ImagePlaceholder
+                key={image.src}
+                alt={image.alt}
+                src={image.src}
+                ratioClass=""
+                imageClassName="object-contain"
+              />
+            ))}
+          </div>
         </section>
       )}
 
@@ -681,16 +759,33 @@ function SignalDetail({
   )
 }
 
-function ImagePlaceholder({ alt, src }: { alt: string; src?: string }) {
+function ImagePlaceholder({
+  alt,
+  src,
+  ratioClass = "aspect-video",
+  imageClassName = "object-contain",
+}: {
+  alt: string
+  src?: string
+  ratioClass?: string
+  imageClassName?: string
+}) {
   if (src) {
     return (
-      <div className="aspect-video overflow-hidden border border-border/20">
-        <img src={src} alt={alt} className="w-full h-full object-contain" />
+      <div className={cn("overflow-hidden border border-border/20", ratioClass)}>
+        <img
+          src={src}
+          alt={alt}
+          className={cn(
+            ratioClass ? "w-full h-full" : "w-full h-auto",
+            imageClassName,
+          )}
+        />
       </div>
     )
   }
   return (
-    <div className="border border-border/50 aspect-video flex flex-col items-center justify-center gap-3" style={{ background: "oklch(0.14 0 0)" }}>
+    <div className={cn("border border-border/50 flex flex-col items-center justify-center gap-3", ratioClass)} style={{ background: "oklch(0.14 0 0)" }}>
       <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground/50">
         {alt}
       </span>
