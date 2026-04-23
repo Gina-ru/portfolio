@@ -21,11 +21,29 @@ type Signal = {
   outcome: string
   reflection?: string
   outcomeCount?: number
+  impact?: Array<{ value: string; label: string }>
+  moreDetails?: Array<{ title: string; body: string }>
   problemStyle?: 'paragraph'
   problemImages?: Array<{ alt: string; src?: string }>
-  problemBeforeAfter?: { before: { src: string; alt: string }; after: { src: string; alt: string } }
+  problemBeforeAfter?: {
+    before: { src: string; alt: string }
+    after?: { src: string; alt: string }
+  }
+  additionalBeforeAfter?: Array<{
+    before: { src: string; alt: string }
+    after: { src: string; alt: string }
+  }>
+  newSkillImages?: Array<{ src: string; alt: string }>
   approachImages?: Array<{ alt: string; src?: string }>
   outcomeImages?: Array<{ alt: string; src?: string }>
+  outcomeFeature?: {
+    primary: { alt: string; src: string }
+    secondary: Array<{ alt: string; src: string }>
+  }
+  outcomeFeatureRows?: Array<{
+    primary: { alt: string; src: string }
+    secondary: Array<{ alt: string; src: string }>
+  }>
 }
 
 const signals: Signal[] = [
@@ -87,17 +105,70 @@ const signals: Signal[] = [
     award: "🏆 IDA Silver & Bronze Award 2025",
     role: "Product & UIUX Designer",
     problem: [
-      "AIGC 3D 플랫폼 핵심 기능 · 랜딩 · Viewer 페이지 지속 개선 필요",
-      "모바일/데스크탑 일관성 부족",
-      "브랜드 몰입감 강화 필요",
+      "사용자 로그 분석 결과, 모델 생성 실패 이후 재시도율이 약 35%로 높게 나타났다.",
+      "인터뷰에서도 '프롬프트 입력이 어렵다'는 피드백이 반복적으로 확인되었다.",
+      "문제는 AI 모델의 성능이 아니라, 사용자가 AI를 사용하는 방식(입력 경험)에 있었다.",
     ],
     approach: [
-      { main: "UI 프레임워크 · 인터랙션 설계로 전환율 최적화" },
-      { main: "반응형 디자인으로 멀티 디바이스 일관성 확보" },
-      { main: "업계 소개 · 전환 · FAQ · 유저 피드백 카드 등 애니메이션 설계" },
-      { main: "버전별 차이 검수 · 이슈 트래킹으로 출시 안정성 확보" },
+      { main: "Prompt Template", sub: "추천 프롬프트 템플릿을 제공하여 사용자의 진입 장벽을 낮추고, AI 사용 경험이 없는 사용자도 쉽게 시작할 수 있도록 설계했다." },
+      { main: "Preview Thumbnail", sub: "생성 과정 중 결과를 예측할 수 있는 미리보기 썸네일을 추가하여 사용자 불확실성을 줄이고 결과에 대한 기대감을 형성했다." },
+      { main: "One-click Iteration UX", sub: "실패 시 단순 재시도 대신 원클릭 수정 인터페이스를 제공해 반복 사용을 자연스럽게 유도하고 UX 흐름이 끊기지 않도록 개선했다." },
     ],
-    outcome: "",
+    outcome: "Tripo는 AI 기반 텍스트 프롬프트로 3D 모델을 생성하는 플랫폼이다. 본 프로젝트의 목표는 사용자의 '프롬프트 입력 → 생성 결과 확인' 과정에서 발생하는 이탈률을 줄이고, 전반적인 UX 신뢰도를 향상시키는 것이었다.",
+    outcomeCount: 0,
+    outcomeFeatureRows: [
+      {
+        primary: { alt: "Tripo Game Hub", src: "/images/tripo-game-hub.png" },
+        secondary: [
+          { alt: "Tripo Desktop v1 1", src: "/images/tripo-desktop-v1-1.png" },
+          { alt: "Tripo Desktop v1 2", src: "/images/tripo-desktop-v1-2.png" },
+        ],
+      },
+      {
+        primary: { alt: "Tripo Affiliate Program", src: "/images/tripo-affiliate-program.png" },
+        secondary: [
+          { alt: "Tripo Text to 3D 1", src: "/images/tripo-text-to-3d-1.png" },
+          { alt: "Tripo Text to 3D 2", src: "/images/tripo-text-to-3d-2.png" },
+        ],
+      },
+    ],
+    impact: [
+      { value: "↓ 15%", label: "Drop-off Rate" },
+      { value: "↑ 20%", label: "Session Time" },
+      { value: "1.3x", label: "Reuse Rate" },
+    ],
+    moreDetails: [
+      {
+        title: "Collaboration",
+        body: "PM과 사용자 여정 및 KPI를 정의하고, 프론트엔드 개발자와 컴포넌트 단위 협업을 통해 구현 단계에서도 시각적 일관성을 유지했다.",
+      },
+      {
+        title: "Design System",
+        body: "Tripo Design System v0.3을 구축하여 색상 토큰, 타이포그래피, 버튼 상태, 입력 필드 등을 정의하고 내부 문서화하여 확장성과 일관성을 확보했다.",
+      },
+      {
+        title: "Global UX",
+        body: "다국어 환경을 고려한 반응형 텍스트 구조와 문화적 차이를 최소화하는 중립적인 디자인 스타일을 적용했다.",
+      },
+    ],
+    problemBeforeAfter: {
+      before: { src: "/images/tripo-before-home.png", alt: "Tripo before homepage" },
+      after: { src: "/images/tripo-after.png", alt: "Tripo after homepage" },
+    },
+    additionalBeforeAfter: [
+      {
+        before: { src: "/images/tripo-before-1.png", alt: "Tripo before flow" },
+        after: { src: "/images/tripo-after-1.png", alt: "Tripo after flow" },
+      },
+      {
+        before: { src: "/images/tripo-before-2.png", alt: "Tripo before iteration" },
+        after: { src: "/images/tripo-after-4.png", alt: "Tripo after iteration" },
+      },
+    ],
+    newSkillImages: [
+      { src: "/images/tripo-new-skill-after-2.png", alt: "Tripo new skill after 2" },
+      { src: "/images/tripo-new-skill-after-3.png", alt: "Tripo new skill after 3" },
+    ],
   },
   {
     date: "2025.09 — 2026.01",
@@ -435,19 +506,52 @@ function SignalDetail({
             </ul>
           )}
           {signal.problemBeforeAfter && (
-            <div className="mt-8 flex items-start gap-4">
+            <div className={cn("mt-8 flex items-start gap-4", !signal.problemBeforeAfter.after && "max-w-4xl")}>
               <div className="flex-1 flex flex-col gap-2">
                 <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", color: "#c95555", borderLeft: "3px solid #c95555", paddingLeft: 8 }}>Before</span>
                 <div style={{ borderRadius: 8, overflow: "hidden" }}>
                   <img src={signal.problemBeforeAfter.before.src} alt={signal.problemBeforeAfter.before.alt} style={{ width: "100%", height: "auto", display: "block" }} />
                 </div>
               </div>
+              {signal.problemBeforeAfter.after && (
+                <>
+                  <span style={{ color: "#c95555", fontSize: 32, flexShrink: 0, alignSelf: "center" }}>→</span>
+                  <div className="flex-1 flex flex-col gap-2">
+                    <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ffffff", borderLeft: "3px solid #ffffff", paddingLeft: 8 }}>After</span>
+                    <div style={{ borderRadius: 8, overflow: "hidden" }}>
+                      <img src={signal.problemBeforeAfter.after.src} alt={signal.problemBeforeAfter.after.alt} style={{ width: "100%", height: "auto", display: "block" }} />
+                    </div>
+                  </div>
+                </>
+              )}
+                </div>
+          )}
+          {signal.additionalBeforeAfter?.map((comparison, comparisonIndex) => (
+            <div key={`${comparison.before.src}-${comparisonIndex}`} className="mt-8 flex items-start gap-4">
+              <div className="flex-1 flex flex-col gap-2">
+                <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", color: "#c95555", borderLeft: "3px solid #c95555", paddingLeft: 8 }}>Before</span>
+                <div style={{ borderRadius: 8, overflow: "hidden" }}>
+                  <img src={comparison.before.src} alt={comparison.before.alt} style={{ width: "100%", height: "auto", display: "block" }} />
+                </div>
+              </div>
               <span style={{ color: "#c95555", fontSize: 32, flexShrink: 0, alignSelf: "center" }}>→</span>
               <div className="flex-1 flex flex-col gap-2">
                 <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ffffff", borderLeft: "3px solid #ffffff", paddingLeft: 8 }}>After</span>
                 <div style={{ borderRadius: 8, overflow: "hidden" }}>
-                  <img src={signal.problemBeforeAfter.after.src} alt={signal.problemBeforeAfter.after.alt} style={{ width: "100%", height: "auto", display: "block" }} />
+                  <img src={comparison.after.src} alt={comparison.after.alt} style={{ width: "100%", height: "auto", display: "block" }} />
                 </div>
+              </div>
+            </div>
+          ))}
+          {signal.newSkillImages && (
+            <div className="mt-20">
+              <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ffffff", borderLeft: "3px solid #ffffff", paddingLeft: 8 }}>New Skill</span>
+              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                {signal.newSkillImages.map((image) => (
+                  <div key={image.src} style={{ borderRadius: 8, overflow: "hidden" }}>
+                    <img src={image.src} alt={image.alt} style={{ width: "100%", height: "auto", display: "block" }} />
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -498,16 +602,48 @@ function SignalDetail({
         {signal.outcome && (
           <p className="font-mono text-[15px] text-foreground leading-relaxed max-w-2xl mt-6">{signal.outcome}</p>
         )}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {signal.outcomeImages
-            ? signal.outcomeImages.map((img, i) => (
-                <ImagePlaceholder key={i} alt={img.alt} src={img.src} />
-              ))
-            : Array.from({ length: signal.outcomeCount ?? 2 }).map((_, i) => (
-                <ImagePlaceholder key={i} alt={`Image / Video ${i + 1}`} />
-              ))
-          }
-        </div>
+        {signal.impact && (
+          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {signal.impact.map((item) => (
+              <div key={item.label} className="border border-white/10 bg-white p-6 text-center text-black">
+                <p className="font-[var(--font-bebas)] text-4xl tracking-tight">{item.value}</p>
+                <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.2em] text-black/60">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {(signal.outcomeImages || (signal.outcomeCount ?? 2) > 0) && (
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {signal.outcomeImages
+              ? signal.outcomeImages.map((img, i) => (
+                  <ImagePlaceholder key={i} alt={img.alt} src={img.src} />
+                ))
+              : Array.from({ length: signal.outcomeCount ?? 2 }).map((_, i) => (
+                  <ImagePlaceholder key={i} alt={`Image / Video ${i + 1}`} />
+                ))
+            }
+          </div>
+        )}
+        {signal.outcomeFeature && (
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
+            <ImagePlaceholder alt={signal.outcomeFeature.primary.alt} src={signal.outcomeFeature.primary.src} />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2">
+              {signal.outcomeFeature.secondary.map((img) => (
+                <ImagePlaceholder key={img.src} alt={img.alt} src={img.src} />
+              ))}
+            </div>
+          </div>
+        )}
+        {signal.outcomeFeatureRows?.map((row) => (
+          <div key={row.primary.src} className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
+            <ImagePlaceholder alt={row.primary.alt} src={row.primary.src} />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2">
+              {row.secondary.map((img) => (
+                <ImagePlaceholder key={img.src} alt={img.alt} src={img.src} />
+              ))}
+            </div>
+          </div>
+        ))}
       </section>
 
       {/* ⑤ REFLECTION */}
@@ -521,6 +657,26 @@ function SignalDetail({
         </p>
       </section>
 
+      {signal.moreDetails && (
+        <section className="mb-4 pt-8">
+          <details className="border border-white/10 bg-white/5 p-6">
+            <summary className="cursor-pointer font-mono text-[14px] uppercase tracking-[0.3em] text-foreground">
+              More Details
+            </summary>
+            <div className="mt-6 space-y-5">
+              {signal.moreDetails.map((detail) => (
+                <div key={detail.title}>
+                  <h3 className="font-mono text-[13px] uppercase tracking-[0.24em] text-accent/70">{detail.title}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-foreground/75" style={{ fontFamily: "Inter, sans-serif" }}>
+                    {detail.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </details>
+        </section>
+      )}
+
     </div>
   )
 }
@@ -529,7 +685,7 @@ function ImagePlaceholder({ alt, src }: { alt: string; src?: string }) {
   if (src) {
     return (
       <div className="aspect-video overflow-hidden border border-border/20">
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
+        <img src={src} alt={alt} className="w-full h-full object-contain" />
       </div>
     )
   }
