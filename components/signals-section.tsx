@@ -9,6 +9,26 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(ScrollTrigger)
 
+type CaseStudy = {
+  id: string
+  label: string
+  sublabel: string
+  solutionTitle?: string
+  solutionFlow?: string
+  solutionFlowSub?: string
+  solutionBody?: string[]
+  solutionHighlights?: Array<{ title: string; body: string }>
+  problem?: string[]
+  approach: Array<{ main: string; sub?: string }>
+  reflection?: string
+  problemBeforeAfter?: {
+    before: { src: string; alt: string }
+    after?: { src: string; alt: string }
+  }
+  approachImages?: Array<{ alt: string; src?: string }>
+  outcomeImages?: Array<{ alt: string; src?: string; caption?: string }>
+}
+
 type Signal = {
   date: string
   title: string
@@ -17,8 +37,10 @@ type Signal = {
   award: string
   role: string
   problem: string[]
+  cases?: CaseStudy[]
   solutionTitle?: string
   solutionFlow?: string
+  solutionFlowSub?: string
   solutionBody?: string[]
   solutionHighlights?: Array<{ title: string; body: string }>
   approach: Array<{ main: string; sub?: string }>
@@ -41,7 +63,7 @@ type Signal = {
   }>
   newSkillImages?: Array<{ src: string; alt: string }>
   approachImages?: Array<{ alt: string; src?: string }>
-  outcomeImages?: Array<{ alt: string; src?: string }>
+  outcomeImages?: Array<{ alt: string; src?: string; caption?: string }>
   outcomeMobileImages?: Array<{ alt: string; src: string }>
 }
 
@@ -68,54 +90,75 @@ const signals: Signal[] = [
       "Sheet0는 AI Agent가 데이터 분석 및 처리 작업을 자동화하는 SaaS 제품이다.",
       "기존 Agent는 작업을 실행하지만 중간 과정이 블랙박스처럼 보이지 않아 신뢰와 이해가 어려웠다.",
       "또한 유저는 데이터를 가지고 있음에도 무엇을 해야 할지 판단하기 어려워 초기 이탈이 발생했다.",
-      "→ 유저의 의도를 이해하고 적절한 시작점을 제시하는 온보딩 UX가 필요했다.",
     ],
-    solutionTitle: "From UI-driven to Intent-driven Onboarding",
-    solutionFlow: "Flow Greeting → Context Input → Interest → Pain Point → Decision → Use Case → Action",
-    solutionBody: [
-      "기존 구조에서는 유저가 어떤 기능을 사용할지 스스로 판단해야 했다. 이로 인해 초기 진입 장벽이 높고, 첫 행동까지 도달하는 데 시간이 오래 걸렸다.",
-      "이를 해결하기 위해 UI 중심 탐색이 아닌 대화 기반으로 유저의 의도를 먼저 이해하는 온보딩 구조를 설계했다.",
-      "AI가 유저의 컨텍스트를 점진적으로 수집하고 의사결정 단계까지 자연스럽게 유도한 뒤 적절한 use case로 연결하는 흐름을 구축했다.",
-    ],
-    solutionHighlights: [
+    cases: [
       {
-        title: "Context Building",
-        body: "유저의 이름과 관심사를 자연스럽게 수집하여 개인화된 흐름을 구성했다.",
+        id: "onboarding",
+        label: "Chat Onboarding",
+        sublabel: "Conversational UX · 신규 유저 진입",
+        solutionTitle: "From UI-driven to Intent-driven Onboarding",
+        solutionFlow: "Greeting → Context Input → Interest → Pain Point → Decision → Use Case → Action",
+        solutionFlowSub: "Broad Exploration → Progressive Narrowing → Clear Intent → Actionable Output",
+        solutionBody: [
+          "UI 중심 탐색이 아닌 대화 기반으로 유저의 의도를 먼저 이해하는 온보딩 구조를 설계했다.",
+          "AI가 유저의 컨텍스트를 점진적으로 수집하고 의사결정 단계까지 자연스럽게 유도한 뒤 적절한 use case로 연결하는 흐름을 구축했다.",
+        ],
+        solutionHighlights: [
+          { title: "Context Building", body: "유저의 이름과 관심사를 자연스럽게 수집하여 개인화된 흐름을 구성했다." },
+          { title: "Soft Assumption", body: "“You’re probably dealing with…”와 같은 표현을 통해 강요하지 않는 방식으로 문제 상황을 제시하고 공감을 유도했다." },
+          { title: "Progressive Narrowing", body: "관심사 → 산업 → 역할 → 문제 → 의사결정 단계로 점진적으로 범위를 좁히며 유저의 의도를 구체화했다." },
+        ],
+        outcomeImages: [
+          {
+            alt: "Sheet0 onboarding UI",
+            src: "/images/sheet0-chat-recommend.png",
+            caption: "Conversational onboarding interface with step-by-step intent understanding",
+          },
+          {
+            alt: "Sheet0 intent-driven onboarding flow",
+            src: "/images/sheet0-chat-interest.png",
+            caption: "From UI-driven exploration to intent-driven onboarding flow",
+          },
+        ],
+        approach: [],
+        reflection: "온보딩에서 '빈 화면'을 없애는 것보다 중요한 건 유저가 첫 질문에 답하고 싶어지도록 만드는 것이다. Soft Assumption은 그 진입점이었다.",
       },
       {
-        title: "Soft Assumption",
-        body: "“You’re probably dealing with…”와 같은 표현을 통해 강요하지 않는 방식으로 문제 상황을 제시하고 공감을 유도했다.",
-      },
-      {
-        title: "Progressive Narrowing",
-        body: "관심사 → 산업 → 역할 → 문제 → 의사결정 단계로 점진적으로 범위를 좁히며 유저의 의도를 구체화했다.",
+        id: "transparency",
+        label: "Agent Transparency",
+        sublabel: "System Message UI · 워크플로우 신뢰",
+        problem: [
+          "기존 Agent는 작업을 실행하지만 중간 과정이 블랙박스처럼 보이지 않아 신뢰와 이해가 어려웠다.",
+          "전문가 유저일수록 '지금 뭘 하고 있는지', '어디서 오류가 났는지'를 실시간으로 파악해야 신뢰하고 사용할 수 있다.",
+          "→ Agent의 행동 과정을 사용자가 읽고 개입할 수 있는 UI가 필요했다.",
+        ],
+        approach: [
+          { main: "Cursor의 Chat 인터페이스에서 힌트를 얻었다. Cursor는 AI가 작업하는 동안 System Message로 중간 과정·오류·판단 근거를 실시간으로 보여준다. 개발자들이 이 방식에 이미 익숙하고 신뢰한다는 점에 주목했다." },
+          { main: "이 패턴을 Sheet0의 데이터 워크플로우에 적용 — Agent가 웹 서치·데이터 처리를 수행하는 동안 각 단계의 진행 상황, 판단 근거, 오류 메시지를 System Message UI로 노출했다." },
+          { main: "Agent 툴 3가지 카테고리", sub: "File Operations — Read / Write / Edit / Glob / Grep  ·  Code Execution — Bash / TodoWrite / Task  ·  Network Tools — WebSearch / WebFetch" },
+          { main: "각 툴 실행 시 정보 구조가 다르기 때문에 카테고리별로 다른 System Message 컴포넌트를 설계했다." },
+          { main: "총 9가지 컴포넌트", sub: "Write Read · To-do Write · Glob Grep · Edit · Bash · Skill · Web Search · Task · Code Block" },
+          { main: "사용자는 과정을 읽고 필요하면 Debug Card(Read / Write / Edit)로 직접 개입할 수 있다." },
+        ],
+        reflection: "AI 제품에서 투명성(Transparency)은 기능이 아니라 신뢰의 문제다. 과정이 보여야 전문가가 믿고 쓴다.",
+        problemBeforeAfter: {
+          before: { src: "/images/chat_before.png", alt: "Before" },
+          after: { src: "/images/chat_after.png", alt: "After" },
+        },
+        approachImages: [
+          { alt: "Chat UI Default state", src: "/images/chat-default-state.png" },
+          { alt: "Chat UI Hover state", src: "/images/chat-hover.png" },
+          { alt: "Chat UI Opened state", src: "/images/chat-opened.png" },
+        ],
+        outcomeImages: [
+          { alt: "tableExpand 0", src: "/images/tableExpand_0.png" },
+          { alt: "tableExpand 1", src: "/images/tableExpand_1.png" },
+          { alt: "tableExpand 2", src: "/images/tableExpand_2.png" },
+        ],
       },
     ],
-    approach: [
-      { main: "Cursor의 Chat 인터페이스에서 힌트를 얻었다. Cursor는 AI가 작업하는 동안 System Message로 중간 과정·오류·판단 근거를 실시간으로 보여준다. 개발자들이 이 방식에 이미 익숙하고 신뢰한다는 점에 주목했다." },
-      { main: "이 패턴을 Sheet0의 데이터 워크플로우에 적용 — Agent가 웹 서치·데이터 처리를 수행하는 동안 각 단계의 진행 상황, 판단 근거, 오류 메시지를 System Message UI로 노출했다." },
-      { main: "Agent 툴 3가지 카테고리", sub: "File Operations — Read / Write / Edit / Glob / Grep  ·  Code Execution — Bash / TodoWrite / Task  ·  Network Tools — WebSearch / WebFetch" },
-      { main: "각 툴 실행 시 정보 구조가 다르기 때문에 카테고리별로 다른 System Message 컴포넌트를 설계했다." },
-      { main: "총 9가지 컴포넌트", sub: "Write Read · To-do Write · Glob Grep · Edit · Bash · Skill · Web Search · Task · Code Block" },
-      { main: "사용자는 과정을 읽고 필요하면 Debug Card(Read / Write / Edit)로 직접 개입할 수 있다." },
-    ],
+    approach: [],
     outcome: "",
-    outcomeCount: 3,
-    reflection: "AI 제품에서 투명성(Transparency)은 기능이 아니라 신뢰의 문제다. 과정이 보여야 전문가가 믿고 쓴다.",
-    problemBeforeAfter: {
-      before: { src: "/images/chat_before.png", alt: "Before" },
-      after: { src: "/images/chat_after.png", alt: "After" },
-    },
-    approachImages: [
-      { alt: "Chat UI Default state", src: "/images/chat-default-state.png" },
-      { alt: "Chat UI Hover state", src: "/images/chat-hover.png" },
-      { alt: "Chat UI Opened state", src: "/images/chat-opened.png" },
-    ],
-    outcomeImages: [
-      { alt: "tableExpand 0", src: "/images/tableExpand_0.png" },
-      { alt: "tableExpand 1", src: "/images/tableExpand_1.png" },
-      { alt: "tableExpand 2", src: "/images/tableExpand_2.png" },
-    ],
   },
   {
     date: "2025.06 — 2025.09",
@@ -510,8 +553,13 @@ function SignalDetail({
         </div>
       </section>
 
+      {/* ② CASES (multi-case projects like Sheet0) */}
+      {signal.cases && signal.cases.length > 0 && (
+        <Sheet0Cases cases={signal.cases} />
+      )}
+
       {/* ② PROBLEM */}
-      {signal.problem.length > 0 && (
+      {!signal.cases && signal.problem.length > 0 && (
         <section className="mb-12">
           <SectionLabel number="02" label="Problem" />
           {signal.problemStyle === 'paragraph' ? (
@@ -588,7 +636,7 @@ function SignalDetail({
         </section>
       )}
 
-      {signal.solutionBody && (
+      {!signal.cases && signal.solutionBody && (
         <section className="mb-12">
           <SectionLabel
             number="03"
@@ -598,11 +646,6 @@ function SignalDetail({
             <h3 className="mt-8 text-3xl tracking-tight text-foreground md:text-4xl">
               {signal.solutionTitle}
             </h3>
-          )}
-          {signal.solutionFlow && (
-            <p className="body-copy mt-4 font-mono text-[14px] leading-relaxed text-accent/80">
-              {signal.solutionFlow}
-            </p>
           )}
           <div className="body-copy mt-6 space-y-5">
             {signal.solutionBody.map((paragraph) => (
@@ -615,6 +658,16 @@ function SignalDetail({
               </p>
             ))}
           </div>
+          {signal.solutionFlow && (
+            <p className="body-copy mt-4 font-mono text-[14px] leading-relaxed text-accent/80">
+              {signal.solutionFlow}
+            </p>
+          )}
+          {signal.solutionFlowSub && (
+            <p className="body-copy mt-3 font-mono text-[14px] leading-relaxed text-foreground/55">
+              {signal.solutionFlowSub}
+            </p>
+          )}
           {signal.solutionHighlights && (
             <div className="body-copy mt-8 space-y-6">
               {signal.solutionHighlights.map((item) => (
@@ -632,11 +685,12 @@ function SignalDetail({
               ))}
             </div>
           )}
+          {signal.title === "Sheet0" && <Sheet0ChatFlow />}
         </section>
       )}
 
       {/* ③ APPROACH */}
-      {signal.approach.length > 0 && (
+      {!signal.cases && signal.approach.length > 0 && (
         <section className="mb-12">
           <SectionLabel number={signal.solutionBody ? "04" : "03"} label="Approach" />
           <ul className="body-copy mt-8 space-y-4">
@@ -806,5 +860,325 @@ function SectionLabel({ number, label }: { number: string; label: string }) {
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <p className="font-mono text-[14px] uppercase tracking-[0.3em] text-accent/60 mb-2">{children}</p>
+  )
+}
+
+// ─── Sheet0 Chat Flow ─────────────────────────────────────────────────────────
+
+const CHAT_STEPS = [
+  {
+    id: "greeting",
+    label: "Greeting & Name Input",
+    body: "사용자에게 자연스럽게 말을 걸고 이름을 입력받아 개인화된 대화 흐름을 시작한다. 초기 질문은 부담 없이 응답할 수 있도록 설계하여 진입 장벽을 낮췄다.",
+    imageSrc: "/images/sheet0-chat-greeting.png",
+    imageAlt: "Sheet0 greeting and name input",
+  },
+  {
+    id: "interest",
+    label: "Interest Area",
+    body: "사용자의 관심 분야를 선택하게 하여 탐색 범위를 좁히고, AI가 이후 질문을 보다 정확하게 이어갈 수 있도록 컨텍스트를 설정한다.",
+  },
+  {
+    id: "recommend",
+    label: "Recommend Use Case",
+    body: "수집된 정보를 기반으로 사용자에게 적합한 use case를 추천하고, 즉시 실행 가능한 액션으로 연결하여 온보딩 이탈을 줄인다.",
+  },
+]
+
+function Sheet0ChatFlow() {
+  const [openStep, setOpenStep] = useState(0)
+
+  return (
+    <div className="mt-16 space-y-0">
+      {CHAT_STEPS.map((step, i) => (
+        <motion.div
+          key={step.id}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.04 }}
+          viewport={{ once: true, margin: "-10%" }}
+          className="border-t border-border/20 py-4"
+        >
+          {/* Accordion trigger */}
+          <button
+            type="button"
+            onClick={() => setOpenStep(openStep === i ? -1 : i)}
+            className={cn(
+              "flex w-full items-start justify-between gap-6 rounded-[20px] border px-6 py-6 text-left transition-colors duration-200",
+              openStep === i
+                ? "border-accent/70 bg-white/[0.04]"
+                : "border-white/5 bg-white/[0.02] hover:border-accent/40 hover:bg-white/[0.03]"
+            )}
+          >
+            <div className="flex min-w-0 flex-col">
+              <span className={cn(
+                "font-mono text-[14px] uppercase tracking-[0.28em] transition-colors duration-200",
+                openStep === i ? "text-accent" : "text-muted-foreground"
+              )}>
+                {String(i + 1).padStart(2, "0")} / {step.label}
+              </span>
+            </div>
+            <motion.span
+              animate={{ rotate: openStep === i ? 180 : 0 }}
+              transition={{ duration: 0.22, ease: "easeInOut" }}
+              className={cn(
+                "mt-1 inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border text-lg leading-none",
+                openStep === i
+                  ? "border-accent/70 text-accent"
+                  : "border-border/30 text-muted-foreground/70"
+              )}
+              aria-hidden="true"
+            >
+              ˅
+            </motion.span>
+          </button>
+
+          <AnimatePresence initial={false}>
+            {openStep === i && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="grid grid-cols-1 gap-6 px-6 pb-6 pt-1 md:grid-cols-[minmax(0,1fr)_360px] md:items-start">
+                  <p
+                    className="max-w-5xl text-[15px] leading-relaxed text-foreground/75"
+                    style={{ fontFamily: "Inter, sans-serif" }}
+                  >
+                    {step.body}
+                  </p>
+                  {step.imageSrc && (
+                    <div className="overflow-hidden border border-border/20 bg-white md:justify-self-end md:w-full md:max-w-[360px]">
+                      <img
+                        src={step.imageSrc}
+                        alt={step.imageAlt ?? step.label}
+                        className="block h-auto w-full"
+                      />
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+// ─── Sheet0Cases: 탭으로 나뉜 두 케이스 ──────────────────────────────────────
+
+function Sheet0Cases({ cases }: { cases: CaseStudy[] }) {
+  const [activeTab, setActiveTab] = useState(0)
+  const active = cases[activeTab]
+
+  return (
+    <div className="mb-12">
+      <div className="mb-6">
+        <p className="font-mono text-[14px] uppercase tracking-[0.28em] text-accent/70">
+          Choose a Case Study
+        </p>
+        <p className="mt-2 text-[15px] leading-relaxed text-foreground/70" style={{ fontFamily: "Inter, sans-serif" }}>
+          Sheet0 includes two product design cases. Select one to view the detailed process.
+        </p>
+      </div>
+
+      <div className="mb-12 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {cases.map((c, i) => (
+          <button
+            key={c.id}
+            onClick={() => setActiveTab(i)}
+            className={cn(
+              "group relative overflow-hidden border p-5 text-left transition-all duration-200",
+              activeTab === i
+                ? "border-accent bg-accent/[0.08] text-foreground shadow-[0_0_0_1px_rgba(232,88,72,0.22)]"
+                : "border-border/30 bg-white/[0.02] text-muted-foreground hover:border-accent/70 hover:bg-accent/[0.06] hover:text-foreground"
+            )}
+            aria-pressed={activeTab === i}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col gap-2">
+                <span className={cn(
+                  "font-mono text-[13px] uppercase tracking-[0.25em] transition-colors duration-200",
+                  activeTab === i ? "text-foreground" : "text-muted-foreground group-hover:text-accent"
+                )}>
+                  {c.label}
+                </span>
+                <span className={cn(
+                  "font-mono text-[14px] transition-colors duration-200",
+                  activeTab === i ? "text-accent/75" : "text-accent/45 group-hover:text-accent/85"
+                )}>
+                  {c.sublabel}
+                </span>
+              </div>
+              <span className={cn(
+                "mt-0.5 inline-flex h-7 min-w-7 items-center justify-center rounded-full border px-2 font-mono text-[10px] uppercase tracking-[0.2em] transition-colors duration-200",
+                activeTab === i
+                  ? "border-accent bg-accent text-background"
+                  : "border-border/30 text-muted-foreground/60 group-hover:border-accent/70 group-hover:bg-accent group-hover:text-background"
+              )}>
+                {activeTab === i ? "Open" : "View"}
+              </span>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active.id}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.25 }}
+        >
+          {active.problem && active.problem.length > 0 && (
+            <section className="mb-12">
+              <SectionLabel number="02" label="Problem" />
+              <ul className="body-copy mt-8 space-y-2">
+                {active.problem.map((item, i) => (
+                  <li key={i} className="font-mono text-[15px] text-foreground leading-relaxed flex gap-3">
+                    <span className="text-accent/60 flex-shrink-0">·</span>
+                    <span className="whitespace-normal min-w-0">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              {active.problemBeforeAfter && (
+                <div className="mt-8 flex items-start gap-4">
+                  <div className="flex-1 flex flex-col gap-2">
+                    <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", color: "#c95555", borderLeft: "3px solid #c95555", paddingLeft: 8 }}>Before</span>
+                    <div style={{ borderRadius: 8, overflow: "hidden" }}>
+                      <img src={active.problemBeforeAfter.before.src} alt={active.problemBeforeAfter.before.alt} style={{ width: "100%", height: "auto", display: "block" }} />
+                    </div>
+                  </div>
+                  {active.problemBeforeAfter.after && (
+                    <>
+                      <span style={{ color: "#c95555", fontSize: 32, flexShrink: 0, alignSelf: "center" }}>→</span>
+                      <div className="flex-1 flex flex-col gap-2">
+                        <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ffffff", borderLeft: "3px solid #ffffff", paddingLeft: 8 }}>After</span>
+                        <div style={{ borderRadius: 8, overflow: "hidden" }}>
+                          <img src={active.problemBeforeAfter.after.src} alt={active.problemBeforeAfter.after.alt} style={{ width: "100%", height: "auto", display: "block" }} />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </section>
+          )}
+
+          {active.solutionBody && (
+            <section className="mb-12">
+              <SectionLabel
+                number={active.problem && active.problem.length > 0 ? "03" : "02"}
+                label="Solution — Conversational Onboarding"
+              />
+              {active.solutionTitle && (
+                <h3 className="mt-8 text-3xl tracking-tight text-foreground md:text-4xl">
+                  {active.solutionTitle}
+                </h3>
+              )}
+              {active.solutionFlow && (
+                <p className="body-copy mt-4 font-mono text-[14px] leading-relaxed text-accent/80">
+                  {active.solutionFlow}
+                </p>
+              )}
+              {active.solutionFlowSub && (
+                <p className="body-copy mt-3 font-mono text-[14px] leading-relaxed text-foreground/55">
+                  {active.solutionFlowSub}
+                </p>
+              )}
+              <div className="body-copy mt-6 space-y-5">
+                {active.solutionBody.map((paragraph) => (
+                  <p key={paragraph} className="text-[15px] leading-relaxed text-foreground" style={{ fontFamily: "Inter, sans-serif" }}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+              {active.solutionHighlights && (
+                <div className="body-copy mt-8 space-y-6">
+                  {active.solutionHighlights.map((item) => (
+                    <div key={item.title}>
+                      <h4 className="font-mono text-[13px] uppercase tracking-[0.24em] text-accent/70">
+                        [{item.title}]
+                      </h4>
+                      <p className="mt-2 text-[15px] leading-relaxed text-foreground" style={{ fontFamily: "Inter, sans-serif" }}>
+                        {item.body}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {active.id === "onboarding" && <Sheet0ChatFlow />}
+            </section>
+          )}
+
+          {active.approach.length > 0 && (
+            <section className="mb-12">
+              <SectionLabel
+                number={active.solutionBody ? "04" : active.problem && active.problem.length > 0 ? "03" : "02"}
+                label="Approach"
+              />
+              <ul className="body-copy mt-8 space-y-4">
+                {active.approach.map((item, i) => (
+                  <li key={i}>
+                    <div className="text-foreground flex gap-3" style={{ fontFamily: "Inter, sans-serif", fontSize: "16px", lineHeight: 1.8 }}>
+                      <span className="font-mono text-accent/60 flex-shrink-0 text-[15px]">·</span>
+                      <span className="whitespace-normal min-w-0">{item.main}</span>
+                    </div>
+                    {item.sub && (
+                      <p className="text-foreground/60 ml-5 mt-1 whitespace-normal" style={{ fontFamily: "Inter, sans-serif", fontSize: "14px", lineHeight: 1.8 }}>
+                        {item.sub}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              {active.approachImages && (
+                <div className="mt-8 grid grid-cols-3 gap-4">
+                  {active.approachImages.map((img, i) => (
+                    img.src
+                      ? <img key={i} src={img.src} alt={img.alt} className="w-full h-auto object-contain" style={{ borderRadius: 8 }} />
+                      : <ImagePlaceholder key={i} alt={img.alt} />
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
+
+          {active.outcomeImages && active.outcomeImages.length > 0 && (
+            <section className="mb-12">
+              <SectionLabel number="04" label="Outcome" />
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {active.outcomeImages.map((img, i) => (
+                  <div key={i} className="space-y-3">
+                    <ImagePlaceholder alt={img.alt} src={img.src} ratioClass="" imageClassName="object-contain" />
+                    {img.caption && (
+                      <p
+                        className="text-[15px] leading-relaxed text-foreground/72"
+                        style={{ fontFamily: "Inter, sans-serif" }}
+                      >
+                        {img.caption}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {active.reflection && (
+            <section className="mb-4 border-t border-border/20 pt-12">
+              <SectionLabel number="05" label="Reflection" />
+              <p className="body-copy font-mono text-[15px] leading-relaxed mt-8 italic">
+                <span className="text-foreground">{active.reflection}</span>
+              </p>
+            </section>
+          )}
+        </motion.div>
+      </AnimatePresence>
+    </div>
   )
 }
